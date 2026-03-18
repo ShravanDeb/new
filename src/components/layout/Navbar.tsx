@@ -18,7 +18,8 @@ export default function Navbar() {
   
   const { scrollY } = useScroll()
 
-  // Progressive tagline animations based on scroll depth
+  // ── PROGRESSIVE SCROLL ANIMATIONS ──
+  // Tagline fades and wipes away between 0px and 100px of scroll
   const taglineOpacity = useTransform(scrollY, [0, 80], [1, 0])
   const taglineClip = useTransform(
     scrollY, 
@@ -30,7 +31,7 @@ export default function Navbar() {
   return (
     <motion.header
       className={styles.navbar}
-      // Use x: "-50%" here to maintain centering while animating entry
+      // CRITICAL: Must include x: "-50%" in both to maintain fixed centering
       initial={{ x: "-50%", y: -100, opacity: 0 }}
       animate={{ x: "-50%", y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -68,6 +69,7 @@ export default function Navbar() {
                 >
                   <span className={styles['link-text']}>{label}</span>
                   
+                  {/* Sliding Pill Indicator */}
                   {(hoveredPath === to || (isActive && !hoveredPath)) && (
                     <motion.div
                       layoutId="navbar-indicator"
