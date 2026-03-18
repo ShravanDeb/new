@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform, LayoutGroup } from 'framer-motion'
 import { FiMoon, FiCommand } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './Navbar.module.css'
 
 const links = [
@@ -13,71 +13,78 @@ const links = [
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
   const [hoveredPath, setHoveredPath] = useState<string | null>(null)
   const location = useLocation()
+  
+  // Track continuous scroll position
+  const { scrollY } = useScroll()
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  // Progressive tagline animations: 0px to 60px scroll distance
+  const taglineOpacity = useTransform(scrollY, [0, 60], [1, 0])
+  const taglineClip = useTransform(
+    scrollY, 
+    [0, 60], 
+    ['inset(0 0% 0 0)', 'inset(0 100% 0 0)']
+  )
+  const taglineX = useTransform(scrollY, [0, 60], [0, -20])
 
   return (
     <motion.header
-      className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      className={styles.navbar}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className={styles.left}>
         <NavLink to="/" className={styles.logo}>YN</NavLink>
 
-        <AnimatePresence mode="wait">
-          {!scrolled && (
-            <motion.div
-              className={styles.taglineGroup}
-              initial={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }}
-              animate={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }}
-              exit={{ 
-                clipPath: 'inset(0 100% 0 0)', 
-                opacity: 0,
-                transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } 
-              }}
-            >
-              <div className={styles.divider} />
-              <div className={styles.tagline}>
-                <span className={styles.tagTop}>CREATIVE ENGINEER</span>
-                <span className={styles.tagBottom}>BUILDING THE FUTURE</span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className={styles.taglineGroup}
+          style={{ 
+            opacity: taglineOpacity, 
+            clipPath: taglineClip,
+            x: taglineX 
+          }}
+        >
+          <div className={styles.divider} />
+          <div className={styles.tagline}>
+            <span className={styles.tagTop}>CREATIVE ENGINEER</span>
+            <span className={styles.tagBottom}>BUILDING THE FUTURE</span>
+          </div>
+        </motion.div>
       </div>
 
       <div className={styles.right}>
-        <nav className={styles.nav} onMouseLeave={() => setHoveredPath(null)}>
-          {links.map(({ to, label }) => {
-            const isActive = location.pathname === to;
-            return (
-              <NavLink
-                key={to}
-                to={to}
-                onMouseEnter={() => setHoveredPath(to)}
-                className={styles.link}
-              >
-                <span className={styles['link-text']}>{label}</span>
-                {(hoveredPath === to || (isActive && !hoveredPath)) && (
-                  <motion.div
-                    layoutId="navbar-indicator"
-                    className={styles.pill}
-                    transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-                  />
-                )}
-              </NavLink>
-            );
-          })}
-        </nav>
+        <LayoutGroup>
+          <nav className={styles.nav} onMouseLeave={() => setHoveredPath(null)}>
+            {links.map(({ to, label }) => {
+              const isActive = location.pathname === to
+              return (
+                <NavLink
+                  key={to}
+                  to={to}
+                  onMouseEnter={() => setHoveredPath(to)}
+                  className={styles.link}
+                >
+                  <span className={styles['link-text']}>{label}</span>
+                  
+                  {/* Sliding Pill Logic using layoutId */}
+                  {(hoveredPath === to || (isActive && !hoveredPath)) && (
+                    <motion.div
+                      layoutId="navbar-indicator"
+                      className={styles.pill}
+                      transition={{
+                        type: "spring",
+                        bounce: 0.2,
+                        duration: 0.5
+                      }}
+                    />
+                  )}
+                </NavLink>
+              )
+            })}
+          </nav>
+        </LayoutGroup>
 
         <div className={styles.actions}>
           <button className={styles.iconBtn} aria-label="Toggle theme">
