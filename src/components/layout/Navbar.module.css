@@ -1,22 +1,22 @@
 /* ── LAYOUT ── */
 .navbar {
-  position: fixed;
+  position: fixed; /* Keep it fixed at the top */
   top: 1.5rem;
   left: 50%;
-  transform: translateX(-50%); /* Centers the floating bar */
+  transform: translateX(-50%); /* Center the bar */
   width: 95%;
-  max-width: var(--container-max);
+  max-width: var(--container-max); /* Use your existing variable */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Logo left, Nav right */
   align-items: center;
-  z-index: 100;
-  pointer-events: none; /* Allows clicks to pass through empty space */
+  z-index: 1000;
+  pointer-events: none; /* Let scroll pass through empty space */
 }
 
 .left, .right {
   display: flex;
   align-items: center;
-  pointer-events: auto; /* Restores clicks for buttons and links */
+  pointer-events: auto; /* Buttons remain clickable */
 }
 
 /* ── LEFT: LOGO & TAGLINE ── */
@@ -25,7 +25,8 @@
   font-size: 1.3rem;
   font-weight: 800;
   color: var(--color-text);
-  margin-right: 1rem;
+  margin-right: 1.5rem;
+  text-decoration: none;
 }
 
 .taglineGroup {
@@ -61,17 +62,24 @@
   display: flex;
   align-items: center;
   gap: 0.1rem;
-  background: rgba(17, 17, 17, 0.85); /* Dark background for blend mode context */
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-  border-radius: 99px;
   padding: 0.3rem;
-  isolation: isolate; /* Required for mix-blend-mode difference */
+  border-radius: 99px;
+  
+  /* --- Glassmorphism Core --- */
+  background: rgba(17, 17, 17, 0.4); /* Semi-transparent dark */
+  backdrop-filter: blur(12px); /* The frosted glass blur */
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  
+  /* Subtle border and shadow to make it pop */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Light transparent border */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  isolation: isolate; /* Keep for the text masking effect */
 }
 
 .link {
   position: relative;
-  padding: 0.4rem 1.1rem;
+  padding: 0.45rem 1.2rem;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -82,12 +90,11 @@
   z-index: 2;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #ffffff; /* Must be white to invert to black against the white pill */
+  color: #ffffff; /* Must be white to invert correctly against the pill */
   mix-blend-mode: difference;
   transition: color 0.3s ease;
 }
 
-/* Dim text when not hovered or active */
 .link:not(:hover) .link-text {
   color: var(--color-muted);
 }
@@ -109,14 +116,15 @@
 }
 
 .iconBtn {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--color-border);
   border-radius: 99px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-muted);
+  background: transparent;
   transition: all 0.2s ease;
 }
 
@@ -128,14 +136,12 @@
 .bookBtn {
   background: var(--color-text);
   color: #000;
-  padding: 0.5rem 1.2rem;
+  padding: 0.5rem 1.3rem;
   border-radius: 99px;
   font-size: 0.8rem;
   font-weight: 600;
-  transition: opacity 0.2s ease;
+  text-decoration: none;
 }
-
-.bookBtn:hover { opacity: 0.9; }
 
 @media (max-width: 768px) {
   .taglineGroup { display: none; }

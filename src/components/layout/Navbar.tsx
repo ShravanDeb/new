@@ -16,23 +16,23 @@ export default function Navbar() {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null)
   const location = useLocation()
   
-  // Track continuous scroll position
   const { scrollY } = useScroll()
 
-  // Progressive tagline animations: 0px to 60px scroll distance
-  const taglineOpacity = useTransform(scrollY, [0, 60], [1, 0])
+  // Progressive tagline animations based on scroll depth
+  const taglineOpacity = useTransform(scrollY, [0, 80], [1, 0])
   const taglineClip = useTransform(
     scrollY, 
-    [0, 60], 
+    [0, 100], 
     ['inset(0 0% 0 0)', 'inset(0 100% 0 0)']
   )
-  const taglineX = useTransform(scrollY, [0, 60], [0, -20])
+  const taglineX = useTransform(scrollY, [0, 100], [0, -20])
 
   return (
     <motion.header
       className={styles.navbar}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      // Use x: "-50%" here to maintain centering while animating entry
+      initial={{ x: "-50%", y: -100, opacity: 0 }}
+      animate={{ x: "-50%", y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className={styles.left}>
@@ -68,7 +68,6 @@ export default function Navbar() {
                 >
                   <span className={styles['link-text']}>{label}</span>
                   
-                  {/* Sliding Pill Logic using layoutId */}
                   {(hoveredPath === to || (isActive && !hoveredPath)) && (
                     <motion.div
                       layoutId="navbar-indicator"
