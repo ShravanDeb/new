@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMoon, FiCommand } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
@@ -14,6 +14,8 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null)
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -23,27 +25,24 @@ export default function Navbar() {
 
   return (
     <motion.header
-      className={styles.navbar}
-      initial={{ y: -60, opacity: 0 }}
+      className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}
+      initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* LEFT — logo + divider + tagline */}
       <div className={styles.left}>
         <NavLink to="/" className={styles.logo}>YN</NavLink>
 
-        {/* Tagline wipes out to the right on scroll */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {!scrolled && (
             <motion.div
               className={styles.taglineGroup}
-              initial={{ opacity: 1, x: 0, width: 'auto' }}
-              animate={{ opacity: 1, x: 0, width: 'auto' }}
-              exit={{
+              initial={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }}
+              animate={{ clipPath: 'inset(0 0% 0 0)', opacity: 1 }}
+              exit={{ 
+                clipPath: 'inset(0 100% 0 0)', 
                 opacity: 0,
-                x: 40,
-                width: 0,
-                transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const }
+                transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } 
               }}
             >
               <div className={styles.divider} />
@@ -56,26 +55,28 @@ export default function Navbar() {
         </AnimatePresence>
       </div>
 
-      {/* CENTER/RIGHT — nav slides to center on scroll */}
-      <motion.div
-        className={styles.right}
-        animate={{
-          x: scrolled ? '-20%' : '0%',
-        }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
-      >
-        <nav className={styles.nav}>
-          {links.map(({ to, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `${styles.link} ${isActive ? styles.active : ''}`
-              }
-            >
-              {label}
-            </NavLink>
-          ))}
+      <div className={styles.right}>
+        <nav className={styles.nav} onMouseLeave={() => setHoveredPath(null)}>
+          {links.map(({ to, label }) => {
+            const isActive = location.pathname === to;
+            return (
+              <NavLink
+                key={to}
+                to={to}
+                onMouseEnter={() => setHoveredPath(to)}
+                className={styles.link}
+              >
+                <span className={styles['link-text']}>{label}</span>
+                {(hoveredPath === to || (isActive && !hoveredPath)) && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className={styles.pill}
+                    transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                  />
+                )}
+              </NavLink>
+            );
+          })}
         </nav>
 
         <div className={styles.actions}>
@@ -89,7 +90,7 @@ export default function Navbar() {
             <FiCommand size={15} />
           </button>
         </div>
-      </motion.div>
+      </div>
     </motion.header>
   )
 }

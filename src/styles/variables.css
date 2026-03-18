@@ -25,3 +25,15 @@
   --duration-med:  300ms;
   --duration-slow: 600ms;
 }
+.navbar {
+  position: fixed;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  width: max-content;
+  margin: 0 auto;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
