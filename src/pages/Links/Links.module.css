@@ -1,0 +1,12 @@
+.page { padding-top: 7rem; padding-bottom: 6rem; max-width: 680px; margin: 0 auto; padding-left: clamp(1.5rem,5vw,4rem); padding-right: clamp(1.5rem,5vw,4rem); }
+.heading { font-size: clamp(2.5rem,6vw,4rem); font-weight: 800; margin-bottom: 0.75rem; }
+.sub { color: var(--color-muted); font-size: 1rem; margin-bottom: 3rem; }
+.list { display: flex; flex-direction: column; gap: 0.75rem; }
+.item { display: flex; align-items: center; gap: 1.25rem; padding: 1.35rem 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); transition: border-color 200ms, background 200ms; }
+.item:hover { background: var(--color-surface-2); border-color: rgba(200,245,96,0.3); }
+.icon { color: var(--color-accent); flex-shrink: 0; }
+.info { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+.platform { font-weight: 600; font-size: 0.95rem; }
+.desc { font-size: 0.78rem; color: var(--color-muted); }
+.handle { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-muted); white-space: nowrap; }
+.ext { color: var(--color-muted); flex-shrink: 0; }

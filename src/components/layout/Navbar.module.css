@@ -1,0 +1,189 @@
+/* ── LAYOUT & CONTAINERS ── */
+.navbar {
+  display: flex;
+  gap: 10px;
+  /* Ensure the navbar sits on a dark background for the blend mode to work perfectly */
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-self: start;
+  overflow: hidden; /* clips the wipe animation */
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-self: end;
+}
+
+/* ── LEFT: LOGO & TAGLINE ── */
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  flex-shrink: 0; /* logo never shrinks */
+}
+
+.taglineGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.tagline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  white-space: nowrap;
+}
+
+.tagTop {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.tagBottom {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ── RIGHT: NAVIGATION ── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  background: var(--color-surface); /* Keep this very dark/black for best effect */
+  border: 1px solid var(--color-border);
+  border-radius: 99px;
+  padding: 0.3rem;
+}
+
+/* The link container acts as the anchor */
+.link {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* The text span holding the magic blend mode */
+.link-text {
+  position: relative;
+  z-index: 2; /* Sits above the expanding pill */
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-muted); /* Your default inactive color */
+  mix-blend-mode: difference;
+  transition: color 0.3s ease;
+}
+
+/* The expanding white pill background */
+.link::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* Shorthand for top:0, left:0, right:0, bottom:0 */
+  background-color: #ffffff;
+  border-radius: 99px;
+  z-index: 1; /* Sits behind text, above container */
+  
+  /* Initial hidden state */
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Hover States */
+.link:hover .link-text {
+  color: #ffffff; /* Text MUST turn pure white to invert into black against the white pill */
+}
+
+.link:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Active State */
+.active {
+  background: #ffffff;
+}
+
+.active .link-text {
+  color: #ffffff; /* Will appear black due to blend mode against the white background */
+  mix-blend-mode: difference; 
+}
+
+/* ── ACTIONS (ICONS & BUTTONS) ── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.5rem;
+}
+
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 99px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-fast), border-color var(--duration-fast);
+}
+
+.iconBtn:hover {
+  color: var(--color-text);
+  border-color: var(--color-muted);
+}
+
+.bookBtn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  border-radius: 99px;
+  background: var(--color-text);
+  color: #000;
+  white-space: nowrap;
+  transition: opacity var(--duration-fast);
+}
+
+.bookBtn:hover { 
+  opacity: 0.85; 
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .taglineGroup { display: none; }
+}
+
+@media (max-width: 520px) {
+  .actions { display: none; }
+}

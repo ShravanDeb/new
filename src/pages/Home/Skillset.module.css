@@ -1,0 +1,6 @@
+.section { border-top: 1px solid var(--color-border); }
+.heading { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 700; margin-bottom: 3rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 2.5rem; }
+.category { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent); margin-bottom: 1rem; }
+.pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pill { font-size: 0.82rem; padding: 0.4rem 0.9rem; border: 1px solid var(--color-border); border-radius: 99px; color: var(--color-muted); cursor: default; background: transparent; font-family: var(--font-mono); }

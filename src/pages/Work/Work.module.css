@@ -1,0 +1,20 @@
+.page { padding-top: 7rem; padding-bottom: 6rem; max-width: var(--container-max); margin: 0 auto; padding-left: clamp(1.5rem,5vw,4rem); padding-right: clamp(1.5rem,5vw,4rem); }
+.heading { font-size: clamp(2.5rem,6vw,4.5rem); font-weight: 800; margin-bottom: 0.75rem; }
+.sub { color: var(--color-muted); font-size: 1rem; margin-bottom: 3rem; }
+.filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.filterBtn { font-size: 0.82rem; padding: 0.45rem 1.1rem; border-radius: 99px; border: 1px solid var(--color-border); color: var(--color-muted); background: transparent; transition: all 150ms; font-family: var(--font-mono); }
+.filterBtn:hover { color: var(--color-text); border-color: var(--color-muted); }
+.filterActive { color: #000 !important; background: var(--color-accent) !important; border-color: var(--color-accent) !important; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.5rem; }
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 2rem; display: flex; flex-direction: column; gap: 0.85rem; transition: border-color 200ms; }
+.card:hover { border-color: rgba(200,245,96,0.25); }
+.cardTop { display: flex; justify-content: space-between; align-items: center; }
+.year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-muted); }
+.featured { font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-accent); border: 1px solid rgba(200,245,96,0.4); padding: 0.2rem 0.6rem; border-radius: 99px; text-transform: uppercase; }
+.title { font-size: 1.2rem; font-weight: 700; font-family: var(--font-display); }
+.desc  { font-size: 0.88rem; color: var(--color-muted); line-height: 1.65; flex: 1; }
+.tags  { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tags span { font-size: 0.7rem; padding: 0.2rem 0.65rem; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 99px; color: var(--color-muted); font-family: var(--font-mono); }
+.links { display: flex; gap: 1rem; }
+.links a { font-size: 0.8rem; color: var(--color-accent); font-family: var(--font-mono); }
+.links a:hover { opacity: 0.7; }
