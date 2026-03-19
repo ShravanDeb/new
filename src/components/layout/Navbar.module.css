@@ -5,9 +5,9 @@
   left: 0;
   right: 0;
   width: 100%;
-  padding: 0 4rem; /* Defines how far the items sit from screen edges */
+  padding: 0 4rem;
   display: flex;
-  justify-content: space-between; /* Pushes Logo left and Nav right */
+  justify-content: space-between;
   align-items: center;
   z-index: 1000;
   pointer-events: none;
@@ -17,7 +17,7 @@
 .rightSideWrapper {
   display: flex;
   align-items: center;
-  pointer-events: auto; /* Restores clicks */
+  pointer-events: auto;
 }
 
 .rightSideWrapper {
@@ -59,7 +59,10 @@
   font-size: 0.55rem;
   text-transform: uppercase;
 }
-.tagBottom { color: var(--color-accent); font-weight: 600; }
+.tagBottom { 
+  color: var(--color-accent); 
+  font-weight: 600; 
+}
 
 /* ── NAVIGATION: GLASS CONTAINER ── */
 .nav {
@@ -73,8 +76,6 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  
-  /* CRITICAL: isolation: isolate ensures blend mode works only on the pill */
   isolation: isolate; 
 }
 
@@ -88,11 +89,11 @@
   min-width: 85px;
 }
 
-/* ── TEXT ANIMATION ── */
+/* ── TEXT ANIMATION & VISIBILITY FIX ── */
 .textWrapper {
   position: relative;
   z-index: 2;
-  height: 1.1rem; /* Window for vertical sliding */
+  height: 1.1rem;
   overflow: hidden; 
   display: flex;
   align-items: center;
@@ -103,23 +104,25 @@
   font-weight: 600;
   display: block;
   white-space: nowrap;
-  
-  /* COLOR LOGIC: 
-     Must be white. When over white pill + difference mode, it turns BLACK. */
   color: #ffffff;
-  mix-blend-mode: difference;
+  transition: color 0.2s ease;
 }
 
-/* Mute the text color when not active/hovered */
+/* When the white pill is active (Hovered or Active Route), change text to black */
+.link.active .link-text,
+.link:hover .link-text {
+  color: #000000;
+}
+
+/* Mute the text color when not active and not hovered */
 .link:not(:hover):not(.active) .link-text {
   color: rgba(255, 255, 255, 0.5);
-  mix-blend-mode: normal; /* Turn off blend mode for muted text */
 }
 
 .pill {
   position: absolute;
   inset: 0;
-  background: #ffffff; /* Must be pure white */
+  background: #ffffff; /* Pure white background */
   border-radius: 99px;
   z-index: 1;
 }
@@ -141,6 +144,7 @@
   justify-content: center;
   color: var(--color-muted);
   background: transparent;
+  cursor: pointer;
 }
 
 .bookBtn {
