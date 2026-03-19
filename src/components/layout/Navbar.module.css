@@ -1,28 +1,34 @@
 /* ── LAYOUT ── */
 .navbar {
-  position: fixed; /* Keep it fixed at the top */
+  position: fixed;
   top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%); /* Center the bar */
-  width: 95%;
-  max-width: var(--container-max); /* Use your existing variable */
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 0 4rem; /* Defines how far the items sit from screen edges */
   display: flex;
-  justify-content: space-between; /* Logo left, Nav right */
+  justify-content: space-between; /* Pushes Logo left and Nav right */
   align-items: center;
   z-index: 1000;
-  pointer-events: none; /* Let scroll pass through empty space */
+  pointer-events: none;
 }
 
-.left, .right {
+.left, 
+.rightSideWrapper {
   display: flex;
   align-items: center;
-  pointer-events: auto; /* Buttons remain clickable */
+  pointer-events: auto; /* Restores clicks */
 }
 
-/* ── LEFT: LOGO & TAGLINE ── */
+.rightSideWrapper {
+  gap: 1.2rem;
+  will-change: transform;
+}
+
+/* ── LOGO & TAGLINE ── */
 .logo {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--color-text);
   margin-right: 1.5rem;
@@ -33,9 +39,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  overflow: hidden; 
+  overflow: hidden;
   white-space: nowrap;
-  will-change: clip-path, opacity, transform;
 }
 
 .divider {
@@ -54,55 +59,67 @@
   font-size: 0.55rem;
   text-transform: uppercase;
 }
-
 .tagBottom { color: var(--color-accent); font-weight: 600; }
 
-/* ── RIGHT: NAVIGATION ── */
+/* ── NAVIGATION: GLASS CONTAINER ── */
 .nav {
   display: flex;
   align-items: center;
   gap: 0.1rem;
   padding: 0.3rem;
   border-radius: 99px;
+  background: rgba(15, 15, 15, 0.45); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   
-  /* --- Glassmorphism Core --- */
-  background: rgba(17, 17, 17, 0.4); /* Semi-transparent dark */
-  backdrop-filter: blur(12px); /* The frosted glass blur */
-  -webkit-backdrop-filter: blur(12px); /* Safari support */
-  
-  /* Subtle border and shadow to make it pop */
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Light transparent border */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  
-  isolation: isolate; /* Keep for the text masking effect */
+  /* CRITICAL: isolation: isolate ensures blend mode works only on the pill */
+  isolation: isolate; 
 }
 
 .link {
   position: relative;
-  padding: 0.45rem 1.2rem;
+  padding: 0.45rem 1.25rem;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 85px;
+}
+
+/* ── TEXT ANIMATION ── */
+.textWrapper {
+  position: relative;
+  z-index: 2;
+  height: 1.1rem; /* Window for vertical sliding */
+  overflow: hidden; 
   display: flex;
   align-items: center;
 }
 
 .link-text {
-  position: relative;
-  z-index: 2;
   font-size: 0.85rem;
-  font-weight: 500;
-  color: #ffffff; /* Must be white to invert correctly against the pill */
+  font-weight: 600;
+  display: block;
+  white-space: nowrap;
+  
+  /* COLOR LOGIC: 
+     Must be white. When over white pill + difference mode, it turns BLACK. */
+  color: #ffffff;
   mix-blend-mode: difference;
-  transition: color 0.3s ease;
 }
 
-.link:not(:hover) .link-text {
-  color: var(--color-muted);
+/* Mute the text color when not active/hovered */
+.link:not(:hover):not(.active) .link-text {
+  color: rgba(255, 255, 255, 0.5);
+  mix-blend-mode: normal; /* Turn off blend mode for muted text */
 }
 
 .pill {
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: #ffffff; /* Must be pure white */
   border-radius: 99px;
   z-index: 1;
 }
@@ -112,12 +129,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-left: 1rem;
 }
 
 .iconBtn {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--color-border);
   border-radius: 99px;
   display: flex;
@@ -125,24 +141,25 @@
   justify-content: center;
   color: var(--color-muted);
   background: transparent;
-  transition: all 0.2s ease;
-}
-
-.iconBtn:hover {
-  color: var(--color-text);
-  border-color: var(--color-muted);
 }
 
 .bookBtn {
   background: var(--color-text);
   color: #000;
-  padding: 0.5rem 1.3rem;
+  padding: 0.5rem 1.4rem;
   border-radius: 99px;
   font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
 }
 
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .navbar { padding: 0 2rem; }
+}
+
 @media (max-width: 768px) {
+  .navbar { padding: 0 1rem; }
   .taglineGroup { display: none; }
+  .rightSideWrapper { transform: none !important; }
 }
