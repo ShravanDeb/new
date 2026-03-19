@@ -8,7 +8,8 @@
   --color-accent:    #c8f560;
   --color-accent-2:  #4af0c4;
 
-  --font-display: 'Syne', sans-serif;
+  /* Use Outfit for Headlines */
+  --font-display: 'Outfit', sans-serif;
   --font-body:    'DM Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
@@ -25,15 +26,4 @@
   --duration-med:  300ms;
   --duration-slow: 600ms;
 }
-.navbar {
-  position: fixed;
-  top: 1.5rem;
-  left: 0;
-  right: 0;
-  width: max-content;
-  margin: 0 auto;
-  z-index: 100;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+
