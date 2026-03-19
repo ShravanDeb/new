@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,300;1,400&display=swap');
 @import './variables.css';
 
 /* Local Font Definitions */
@@ -31,6 +32,8 @@
 
 /* Base Reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+a { text-decoration: none; color: inherit; }
 
 html, body {
   width: 100%;

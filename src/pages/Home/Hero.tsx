@@ -20,9 +20,6 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       <motion.div variants={container} initial="hidden" animate="visible" className={styles.content}>
-        <motion.span variants={item} className={styles.badge}>
-          <span className={styles.dot} /> Available for work
-        </motion.span>
         
         <motion.h1 variants={item} className={styles.headline}>
           I build<br />
@@ -37,14 +34,6 @@ export default function Hero() {
         <motion.div variants={item} className={styles.cta}>
           <a href="/work"  className={styles.btnPrimary}>See my work</a>
           <a href="/about" className={styles.btnGhost}>About me →</a>
-        </motion.div>
-        
-        <motion.div variants={item} className={styles.stats}>
-          <div className={styles.stat}><strong>3+</strong><span>Years exp.</span></div>
-          <div className={styles.divider} />
-          <div className={styles.stat}><strong>20+</strong><span>Projects</span></div>
-          <div className={styles.divider} />
-          <div className={styles.stat}><strong>10+</strong><span>Clients</span></div>
         </motion.div>
       </motion.div>
       

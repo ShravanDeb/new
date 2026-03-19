@@ -12,12 +12,13 @@
   --color-blue:      #3b82f6; /* blue-500 */
   --color-indigo:    #6366f1;
   
-  --color-accent:    #c8f560; /* Original lime kept for badges/dots */
+  --color-accent:    #128b3f; /* Forest green */
   --color-accent-2:  #4af0c4;
 
   /* Fonts */
   --font-display: 'Outfit', sans-serif;
   --font-serif:   'Nyght Serif', serif; 
+  --font-sub:     'Cormorant Garamond', serif;
   --font-body:    'DM Sans', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
