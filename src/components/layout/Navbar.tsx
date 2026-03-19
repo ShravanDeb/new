@@ -17,13 +17,10 @@ export default function Navbar() {
   const location = useLocation();
   const { scrollY } = useScroll();
 
-  // 1. Tagline Scroll Transforms
+  // Scroll Transforms
   const taglineOpacity = useTransform(scrollY, [0, 50], [1, 0]);
   const taglineClip = useTransform(scrollY, [0, 80], ['inset(0 0% 0 0)', 'inset(0 100% 0 0)']);
   const taglineX = useTransform(scrollY, [0, 80], [0, -20]);
-
-  // 2. Nav Movement: Extreme Right -> Center
-  // "-42%" is usually the sweet spot to pull the right-aligned container to the horizontal center
   const navMoveX = useTransform(scrollY, [0, 150], ["0%", "-42%"]);
 
   return (
@@ -33,7 +30,6 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* FIXED LEFT: Logo & Tagline */}
       <div className={styles.left}>
         <NavLink to="/" className={styles.logo}>YN</NavLink>
 
@@ -53,7 +49,6 @@ export default function Navbar() {
         </motion.div>
       </div>
 
-      {/* DYNAMIC RIGHT: Moves toward center on scroll */}
       <motion.div className={styles.rightSideWrapper} style={{ x: navMoveX }}>
         <LayoutGroup>
           <nav className={styles.nav} onMouseLeave={() => setHoveredPath(null)}>
@@ -77,7 +72,7 @@ export default function Navbar() {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+                        transition={{ duration: 0.2, ease: "linear" }}
                       >
                         {label}
                       </motion.span>
@@ -88,7 +83,7 @@ export default function Navbar() {
                     <motion.div
                       layoutId="navbar-indicator"
                       className={styles.pill}
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                      transition={{ duration: 0.2, ease: "linear" }}
                     />
                   )}
                 </NavLink>

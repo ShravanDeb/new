@@ -59,10 +59,7 @@
   font-size: 0.55rem;
   text-transform: uppercase;
 }
-.tagBottom { 
-  color: var(--color-accent); 
-  font-weight: 600; 
-}
+.tagBottom { color: var(--color-accent); font-weight: 600; }
 
 /* ── NAVIGATION: GLASS CONTAINER ── */
 .nav {
@@ -89,7 +86,7 @@
   min-width: 85px;
 }
 
-/* ── TEXT ANIMATION & VISIBILITY FIX ── */
+/* ── TEXT ANIMATION & COLORS ── */
 .textWrapper {
   position: relative;
   z-index: 2;
@@ -105,24 +102,28 @@
   display: block;
   white-space: nowrap;
   color: #ffffff;
-  transition: color 0.2s ease;
+  transition: color 0.2s linear;
 }
 
-/* When the white pill is active (Hovered or Active Route), change text to black */
-.link.active .link-text,
-.link:hover .link-text {
+/* Text is black when the white pill is present (active route or hover) */
+.link.active .link-text {
   color: #000000;
 }
 
-/* Mute the text color when not active and not hovered */
-.link:not(:hover):not(.active) .link-text {
+/* Text is muted when not active/hovered */
+.link:not(.active) .link-text {
   color: rgba(255, 255, 255, 0.5);
+}
+
+/* Brighten text on hover (it will be black because of the pill) */
+.link:hover .link-text {
+  color: #000000;
 }
 
 .pill {
   position: absolute;
   inset: 0;
-  background: #ffffff; /* Pure white background */
+  background: #ffffff;
   border-radius: 99px;
   z-index: 1;
 }
