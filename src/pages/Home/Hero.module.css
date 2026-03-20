@@ -7,7 +7,8 @@
   align-items: center; 
   padding: 8rem 2cm 4rem; 
   position: relative; 
-  overflow: hidden;
+  /* overflow: hidden removed — was clipping floating buttons.
+     The orbs are now clipped by their own .orbContainer wrapper. */
 }
 
 .content { 
@@ -66,26 +67,52 @@
 }
 
 .sub { 
-  font-family: var(--font-sub); /* Cormorant Garamond */
-  font-size: clamp(1.35rem, 2.6vw, 1.75rem); /* Slightly larger — Cormorant reads smaller optically */
-  color: #ffffff; 
+  font-family: var(--font-serif); /* Cormorant Garamond */
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem); /* Slightly larger — Cormorant reads smaller optically */
+  color: #ffffff80; 
   max-width: 600px; 
-  line-height: 1.4;
-  font-style: italic;
+  line-height: 1.2;
+  font-style: normal;
   font-weight: 300;
   margin-bottom: 2.5rem; 
   opacity: 0.9;
 }
 
-/* .accent flat-color override removed — gradient version above is the source of truth */
+/* Orb wrapper — takes over overflow clipping so .hero doesn't clip buttons */
+.orbContainer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
 
-/* Background elements - contained to prevent stretching */
+/* ─── Beams layer ────────────────────────────────────────────────────────────
+   Sits at the bottom of the stacking context inside orbContainer.
+   The orbs render above it, adding a soft haze that blends the beams
+   naturally into the hero atmosphere.                                        */
+.beamsWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;          /* below orbs (no explicit z-index) */
+  pointer-events: none;
+
+  /* Fade the beams in after a brief delay so the text reveal leads */
+  animation: beamsFadeIn 1.2s ease-out 0.4s both;
+}
+
+@keyframes beamsFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Background elements */
 .orb, .orb2 {
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
   pointer-events: none;
-  z-index: 1;
+  /* z-index handled by parent .orbContainer */
 }
 
 .orb { 
@@ -109,7 +136,10 @@
 /* Other Elements */
 .badge { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-accent); margin-bottom: 2.5rem; }
 .dot { width: 7px; height: 7px; background: var(--color-accent); border-radius: 50%; }
-.cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+/* Extra padding gives the floating buttons headroom so they never clip */
+.cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; padding: 8px 0; }
+
 .btnPrimary { 
   background: linear-gradient(
     180deg, 
@@ -118,7 +148,8 @@
     rgba(0,0,0,0.08) 100%
   );
   font-family: var(--font-display);
-  color: #fff; 
+  /* Slightly muted so the carved shadows read clearly against the letter faces */
+  color: rgba(255, 255, 255, 0.72); 
   font-weight: 700; 
   padding: 0.9rem 2.2rem; 
   border-radius: var(--radius-md);
@@ -131,7 +162,14 @@
     0 -1px 0 rgba(0,0,0,0.15) inset,
     0 4px 12px rgba(0,0,0,0.35),
     0 1px 3px rgba(0,0,0,0.25);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  /* Carved / debossed effect:
+     - dark shadow ABOVE  → simulates shadow falling inside the top of each groove
+     - bright highlight BELOW → simulates light catching the groove's lower lip
+     - subtle spread blur adds depth to the carving */
+  text-shadow:
+    0 -1px 1px rgba(0, 0, 0, 0.85),
+    0  1px 2px rgba(255, 255, 255, 0.35),
+    0  2px 4px rgba(0, 0, 0, 0.45);
   position: relative;
   overflow: hidden;
   animation: btnFloat 3s ease-in-out infinite;
@@ -227,14 +265,19 @@
     0 -1px 0 rgba(0,0,0,0.12) inset,
     0 4px 10px rgba(0,0,0,0.25),
     0 1px 3px rgba(0,0,0,0.2);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  /* Same carved groove logic as btnPrimary */
+  text-shadow:
+    0 -1px 1px rgba(0, 0, 0, 0.8),
+    0  1px 2px rgba(255, 255, 255, 0.28),
+    0  2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
-  animation: btnDrift 4s ease-in-out infinite;
+  /* Same animation as btnPrimary — identical name, duration, and no delay = perfectly in sync */
+  animation: btnFloat 3s ease-in-out infinite;
   transition: all var(--duration-fast) var(--ease-expo);
 }
 
-/* Slow border shimmer for ghost */
+/* Slow border shimmer for ghost — delay removed so sweep matches btnPrimary */
 .btnGhost::before {
   content: '';
   position: absolute;
@@ -246,7 +289,7 @@
     rgba(255,255,255,0.08) 50%,
     transparent 100%
   );
-  animation: btnSweep 4s ease-in-out infinite 1.5s;
+  animation: btnSweep 3s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -273,9 +316,4 @@
     0 2px 4px rgba(0,0,0,0.18);
   transform: translateY(1px);
   animation: none;
-}
-
-@keyframes btnDrift {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-4px); }
 }

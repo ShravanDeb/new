@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import styles from './Hero.module.css'
+import Beams from './Beams'
 
 const container: Variants = { 
   hidden: {}, 
@@ -23,12 +24,12 @@ export default function Hero() {
         
         <motion.h1 variants={item} className={styles.headline}>
           I build<br />
-          <em className={styles.accent}>digital things</em><br />
-          that matter.
+          <em className={styles.accent}>Digital</em> things<br />
+          that <em className={styles.accent}>Think !</em>
         </motion.h1>
 
         <motion.p variants={item} className={styles.sub}>
-          Full-stack developer & designer crafting fast, beautiful, and purposeful web experiences.
+          AI/ML student and developer crafting intelligent, fast, and purposeful web experiences.
         </motion.p>
         
         <motion.div variants={item} className={styles.cta}>
@@ -37,8 +38,27 @@ export default function Hero() {
         </motion.div>
       </motion.div>
       
-      <div className={styles.orb}  aria-hidden="true" />
-      <div className={styles.orb2} aria-hidden="true" />
+      {/* orbContainer clips background layers independently, freeing .hero from overflow:hidden */}
+      <div className={styles.orbContainer} aria-hidden="true">
+
+        {/* Beams sit at the lowest layer — beneath the soft orb glows */}
+        <div className={styles.beamsWrapper}>
+          <Beams
+            beamWidth={3}
+            beamHeight={30}
+            beamNumber={20}
+            lightColor="#ffffff"
+            speed={2}
+            noiseIntensity={1.75}
+            scale={0.2}
+            rotation={30}
+          />
+        </div>
+
+        {/* Orbs overlay the beams for a soft depth haze */}
+        <div className={styles.orb}  />
+        <div className={styles.orb2} />
+      </div>
     </section>
   )
 }
